@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\GitLab\\thelilh.github.io\\programmering\\arena\\ArenaFighter\\ArenaFighter.csproj",
+      "projectUniqueName": "H:\\GitLab\\ArenaFighter\\programmering\\arena\\ArenaFighter\\ArenaFighter.csproj",
       "projectName": "ArenaFighter",
-      "projectPath": "H:\\GitLab\\thelilh.github.io\\programmering\\arena\\ArenaFighter\\ArenaFighter.csproj",
+      "projectPath": "H:\\GitLab\\ArenaFighter\\programmering\\arena\\ArenaFighter\\ArenaFighter.csproj",
       "packagesPath": "C:\\Users\\rolig\\.nuget\\packages\\",
-      "outputPath": "H:\\GitLab\\thelilh.github.io\\programmering\\arena\\ArenaFighter\\obj\\",
+      "outputPath": "H:\\GitLab\\ArenaFighter\\programmering\\arena\\ArenaFighter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "H:\\Visual Studio\\Shared\\NuGetPackages"
