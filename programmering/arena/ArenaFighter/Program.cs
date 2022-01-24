@@ -14,61 +14,61 @@ namespace Arena
     public class Character
     {
         [DataMember]
-        public string namn; //Namn!
+        public string name; //name!
 
         [DataMember]
-        public int befinnande; //Hälsa!
+        public int health; //Hälsa!
 
         [DataMember]
-        public int styrka; //Styrka!
+        public int strength; //strength!
 
         [DataMember]
-        public int svard; //Svärd!
+        public int sword; //Svärd!
 
         [DataMember]
-        public int fart; //Fart!
+        public int speed; //speed!
 
         [DataMember]
-        public int brostplat; //Bröstplåt!
+        public int breastplate; //Bröstplåt!
 
         [DataMember]
-        public int benskydd; //Benskydd!
+        public int greave; //greave!
 
         [DataMember]
-        public int pengar; //Pengar
+        public int money; //money
 
         [DataMember]
-        public int typ; //Typ! 0 = spelare, 1 = motståndare
+        public int type; //type! 0 = player, 1 = motståndare
 
         [DataMember]
-        public bool dead; //Är spelaren död?
+        public bool dead; //Är playern död?
 
-        public Character(string namn, int befinnande, int styrka, bool dead, int svard, int fart, int brostplat, int benskydd, int pengar, int typ)
+        public Character(string name, int health, int strength, bool dead, int sword, int speed, int breastplate, int greave, int money, int type)
         {
-            this.namn = namn;
-            this.befinnande = befinnande;
-            this.styrka = styrka;
+            this.name = name;
+            this.health = health;
+            this.strength = strength;
             this.dead = dead;
-            this.svard = svard;
-            this.fart = fart;
-            this.brostplat = brostplat;
-            this.benskydd = benskydd;
-            this.pengar = pengar;
-            this.typ = typ;
+            this.sword = sword;
+            this.speed = speed;
+            this.breastplate = breastplate;
+            this.greave = greave;
+            this.money = money;
+            this.type = type;
         }
         public override string ToString()
         {
-            string returnString = namn + " har en hälsa av " + befinnande + ", en styrka på " + styrka;
+            string returnString = name + " has a health of " + health + " and a strength of " + strength;
             return returnString;
         }
-        public int TaSkada(int dmg)
+        public int TakeDamage(int dmg)
         {
-            int temp = this.befinnande - dmg;
+            int temp = this.health - dmg;
             return temp;
         }
         public bool CheckIfDead()
         {
-            if (this.befinnande <= 0)
+            if (this.health <= 0)
             {
                 return true;
             }
@@ -77,36 +77,36 @@ namespace Arena
                 return false;
             }
         }
-        public int RullaTarningen()
+        public int RollTheDice()
         {
             //Rulla Tärningen
             Random slump = new Random();
             return slump.Next(1, 7); //Mellan 1 och 6.
         }
-        public void Attakera(Character offer, Game spelet)
+        public void Attack(Character offer, Game theGame)
         {
-            offer.befinnande = offer.TaSkada(this.styrka);
-            Console.WriteLine(String.Format("{0} slog {2}. {2} tog {1} skada.", this.namn, this.styrka, offer.namn));
-            spelet.LoggaDetta(String.Format("{2} skades av {0} ({1} skada).", this.namn, this.styrka, offer.namn));
+            offer.health = offer.TakeDamage(this.strength);
+            Console.WriteLine(String.Format("{0} stabbed {2}. {2} took {1} damage.", this.name, this.strength, offer.name));
+            theGame.LogThis(String.Format("{2} was stabbed {0} ({1} damage).", this.name, this.strength, offer.name));
 
-            if (offer.befinnande <= 0)
+            if (offer.health <= 0)
             {
                 offer.dead = true;
-                if (this.typ == 0 && this.namn != offer.namn)
+                if (this.type == 0 && this.name != offer.name)
                 {
-                    //Ge spelaren pengar för att ha dödat motståndaren
-                    this.pengar += offer.pengar;
-                    spelet.minPengar += 20;
-                    spelet.maxPengar += 20;
+                    //Give the player their reward
+                    this.money += offer.money;
+                    theGame.minmoney += 20;
+                    theGame.maxmoney += 20;
 
-                    //Spelaren ges gratismedelande
-                    Console.WriteLine(String.Format("Grattis, du döda {0}", offer.namn));
-                    spelet.LoggaDetta(String.Format("Spelaren dödade {0}, som hade på sig {1} pengar. Spelarens pengar är nu {2}.", offer.namn, offer.pengar, this.pengar));
-                    Console.WriteLine(String.Format("Du hittade {0} pengar på {1}. Du har nu {2} pengar.", offer.pengar, offer.namn, this.pengar));
+                    //The Player gets a congratulations
+                    Console.WriteLine(String.Format("Congratulations, you killed {0}", offer.name));
+                    theGame.LogThis(String.Format("The player killed {0}, which had {1} money on them. The player's money is now {2}.", offer.name, offer.money, this.money));
+                    Console.WriteLine(String.Format("You found {0} money on {1}. You now have {2} money.", offer.money, offer.name, this.money));
 
-                    //Max och Min Hälsa ökas med 10 HP
-                    spelet.minbefinnande += 10;
-                    spelet.maxbefinnande += 10;
+                    //Health is increased for the enemy
+                    theGame.minhealth += 10;
+                    theGame.maxhealth += 10;
                 }
             }
         }
@@ -115,56 +115,56 @@ namespace Arena
     public class Game
     {
         [DataMember]
-        public int minbefinnande;
+        public int minhealth;
 
         [DataMember]
-        public int maxbefinnande;
+        public int maxhealth;
 
         [DataMember]
-        public int minPengar;
+        public int minmoney;
 
         [DataMember]
-        public int maxPengar;
+        public int maxmoney;
 
         [DataMember]
-        public int minstyrka;
+        public int minstrength;
 
         [DataMember]
-        public int maxstyrka;
+        public int maxstrength;
 
         [DataMember]
-        public int rundorAvklarade;
+        public int roundsDone;
 
         [DataMember]
-        public int kostnadSvard;
+        public int costsword;
 
         [DataMember]
-        public int kostnadBrostplat;
+        public int costbreastplate;
 
         [DataMember]
-        public int kostnadBenskydd;
+        public int costgreave;
 
         [DataMember]
         public List<string> log = new List<string>();
 
-        public Game(int minbefinnande, int maxbefinnande, int minstyrka, int maxstyrka, int rundorAvklarade, string text, int minPengar, int maxPengar, int kostnadSvard, int kostnadBrostplat, int kostnadBenskydd)
+        public Game(int minhealth, int maxhealth, int minstrength, int maxstrength, int roundsDone, string text, int minmoney, int maxmoney, int costsword, int costbreastplate, int costgreave)
         {
-            this.minbefinnande = minbefinnande;
-            this.maxbefinnande = maxbefinnande;
-            this.minstyrka = minstyrka;
-            this.maxstyrka = maxstyrka;
-            this.rundorAvklarade = rundorAvklarade;
+            this.minhealth = minhealth;
+            this.maxhealth = maxhealth;
+            this.minstrength = minstrength;
+            this.maxstrength = maxstrength;
+            this.roundsDone = roundsDone;
             this.log.Add(text);
-            this.minPengar = minPengar;
-            this.maxPengar = maxPengar;
-            this.kostnadBenskydd = kostnadBenskydd;
-            this.kostnadBrostplat = kostnadBrostplat;
-            this.kostnadSvard = kostnadSvard;
+            this.minmoney = minmoney;
+            this.maxmoney = maxmoney;
+            this.costgreave = costgreave;
+            this.costbreastplate = costbreastplate;
+            this.costsword = costsword;
         }
 
-        public void LoggaDetta(string text)
+        public void LogThis(string text)
         {
-            //Ifall texten ej är null, lägg till den.
+            //If the text is not null, then add it to the log
             if (text != null)
             {
                 this.log.Add(text);
@@ -198,281 +198,281 @@ namespace Arena
             return serializableObject;
         }
 
-        static Character CharacterCreation(Game spelet)
+        static Character CharacterCreation(Game theGame)
         {
-            //TODO: lägg till flera namn, spelare kanske är för bra!
-            string[] namn = new string[] { "Sofia Björn", "Clidna Annemarie", "Timo Thorne", "Merrill Latasha", "Jarka Iona", "Liis Rafaela", "Floella Halinka", "Elva Lamya", "Britta Conchobhar", "Alana Ellie", "Magni Tonya" };
+            //TODO: lägg till flera name, player kanske är för bra!
+            string[] name = new string[] { "Sofia Björn", "Clidna Annemarie", "Timo Thorne", "Merrill Latasha", "Jarka Iona", "Liis Rafaela", "Floella Halinka", "Elva Lamya", "Britta Conchobhar", "Alana Ellie", "Magni Tonya" };
             Random rand = new Random();
 
             //Hälsa, mellan 1 och 100.
-            int sbefinnande = rand.Next(spelet.minbefinnande, spelet.maxbefinnande);
+            int shealth = rand.Next(theGame.minhealth, theGame.maxhealth);
 
-            //Ge motståndaren ett namn
-            int rNamn = rand.Next(1, namn.Length);
+            //Ge motståndaren ett name
+            int rname = rand.Next(1, name.Length);
 
             //Skapa Motståndaren
-            Character motstandare = new Character(namn[rNamn], sbefinnande, 0, false, 1, rand.Next(1, 51), 0, 0, rand.Next(spelet.minPengar, spelet.maxPengar), 1); 
+            Character enemy = new Character(name[rname], shealth, 0, false, 1, rand.Next(1, 51), 0, 0, rand.Next(theGame.minmoney, theGame.maxmoney), 1); 
 
-            //Modifiera styrkan
-            motstandare.styrka = motstandare.RullaTarningen();
+            //Modifiera strengthn
+            enemy.strength = enemy.RollTheDice();
 
-            //Spara motståndaren
-            SaveViaDataContractSerialization(motstandare, "motstandare.xml");   //Spara Motståndaren
+            //Save motståndaren
+            SaveViaDataContractSerialization(enemy, "enemy.xml");   //Save Motståndaren
 
-            //Ge tillbaka motståndaren till spelet
-            return motstandare;
+            //Ge tillbaka motståndaren till theGame
+            return enemy;
         }
 
-        static void Runda(Character spelare, Character motstandare, Game spelet)
+        static void Runda(Character player, Character enemy, Game theGame)
         {
             //Rensa skärmen
             Console.Clear();
 
             //Logga rundan
-            spelet.LoggaDetta(String.Format("Runda {0}", spelet.rundorAvklarade));
+            theGame.LogThis(String.Format("Round {0}", theGame.roundsDone));
 
             //Temporära varaiblar
-            int spelareMaxbefinnande = spelare.befinnande;
-            int mMaxbefinnande = motstandare.befinnande;
-            bool avslutarSpelet = false;
+            int playerMaxhealth = player.health;
+            int mMaxhealth = enemy.health;
+            bool endTheGame = false;
 
-            //Skriv ut vem spelaren möter
-            Console.WriteLine(String.Format("{0} möter {1}. Du har en hälsa av {2} och en styrka på {3}, motståndaren har en hälsa på {4}.", spelare.namn, motstandare.namn, spelare.befinnande, spelare.styrka, motstandare.befinnande));
-            if (spelare.fart > motstandare.fart)
+            //Skriv ut vem playern möter
+            Console.WriteLine(String.Format("{0} versus {1}. You have a health of {2} and a strength of {3}, the enemy has a health of {4}.", player.name, enemy.name, player.health, player.strength, enemy.health));
+            if (player.speed > enemy.speed)
             {
-                Console.WriteLine("Du är snabbare än din motståndare");
+                Console.WriteLine("You are faster than your enemy");
             }
             else
             {
-                Console.WriteLine("Du är långsammare än din motståndare");
+                Console.WriteLine("You are slower than your enemy");
             }
-            Console.WriteLine("Klicka enter för att fortsätta...");
+            Console.WriteLine("Click enter to continue");
             Console.ReadLine();
 
-            //Börjar while-loopen, se till att den bara följs så länge både spelaren inte är död, motståndaren inte är död och spelaren inte valt att avsluta spelet.
-            while (!spelare.dead && !motstandare.dead && !avslutarSpelet)
+            //Begin the while loop, but exit if the player is dead, the enemy is dead or the game has ended.
+            while (!player.dead && !enemy.dead && !endTheGame)
             {
                 Console.Clear();
-                Console.WriteLine(String.Format("Din hälsa: {0}/{1}", spelare.befinnande, spelareMaxbefinnande));
-                Console.WriteLine(String.Format("{0}s hälsa: {1}/{2}", motstandare.namn, motstandare.befinnande, mMaxbefinnande));
+                Console.WriteLine(String.Format("Your health: {0}/{1}", player.health, playerMaxhealth));
+                Console.WriteLine(String.Format("{0}'s health: {1}/{2}", enemy.name, enemy.health, mMaxhealth));
 
-                //Är spelare snabbare än motståndare eller lika snabb som motståndare, så går spelaren först
-                if (spelare.fart>motstandare.fart || spelare.fart==motstandare.fart) { 
-                    Console.WriteLine("1) Attakera");
-                    Console.WriteLine("2) Ge upp");
-                    Console.WriteLine("3) Avsluta och spara");
-                    Console.Write("\r\nVad vill du göra? ");
+                //If the player is faster than the enemy or the speed is the same, then the player goes first.
+                if (player.speed>enemy.speed || player.speed==enemy.speed) { 
+                    Console.WriteLine("1) Attack");
+                    Console.WriteLine("2) Retire");
+                    Console.WriteLine("3) Save and exit");
+                    Console.Write("\r\nWhat do you want to do? ");
                     switch (Console.ReadLine())
                     {
                         case "1":
-                            //Motståndaren tar skada
-                            spelare.Attakera(motstandare, spelet);
+                            //The enemy takes damage
+                            player.Attack(enemy, theGame);
                             break;
                         case "2":
-                            //Spelaren ger upp
-                            spelare.Attakera(spelare, spelet);
-                            spelare.dead = true;
-                            avslutarSpelet = true;
+                            //The player retires
+                            player.Attack(player, theGame);
+                            player.dead = true;
+                            endTheGame = true;
                             break;
                         case "3":
-                            //Spelaren avslutar och sparar
-                            Console.WriteLine(String.Format("Det verkar som att {0} vill ta en paus. Än så länge har {0} klarat sig i {1} rundor.", spelare.namn, spelet.rundorAvklarade));
-                            spelet.LoggaDetta(String.Format("Spelet avslutades vid runda {0} av spelaren.", spelet.rundorAvklarade));
-                            avslutarSpelet = true;
-                            SaveGame(spelet, spelare, motstandare);
+                            //The player saves and exits.
+                            Console.WriteLine(String.Format("It seems as if {0} wants to take a pause. So far, {0} has survived {1} rounds.", player.name, theGame.roundsDone));
+                            theGame.LogThis(String.Format("The Game was exited at round {0} by the player.", theGame.roundsDone));
+                            endTheGame = true;
+                            SaveGame(theGame, player, enemy);
                             break;
                         default:
-                            //Motståndaren tar skada
-                            spelare.Attakera(motstandare, spelet);
+                            //The enemy takes damage
+                            player.Attack(enemy, theGame);
                             break;
                     }
-                    if (!avslutarSpelet)
+                    if (!endTheGame)
                     {
-                        if (motstandare.befinnande > 0)
+                        if (enemy.health > 0)
                         {
-                            motstandare.Attakera(spelare, spelet);
+                            enemy.Attack(player, theGame);
                         }
                     }
                 }
-                //Om motståndaren är snabbare än spelare, så går motståndaren först
+                //If the enemy is faster than the player, then the enemy goes first
                 else
                 {
-                    if (!avslutarSpelet)
+                    if (!endTheGame)
                     {
-                        if (motstandare.befinnande > 0)
+                        if (enemy.health > 0)
                         {
-                            motstandare.Attakera(spelare, spelet); //Attakera spelaren
+                            enemy.Attack(player, theGame); //Attack the player
                         }
                     }
-                    Console.WriteLine("1) Attakera");
-                    Console.WriteLine("2) Ge upp");
-                    Console.WriteLine("3) Avsluta och spara");
-                    Console.Write("\r\nVad vill du göra? ");
+                    Console.WriteLine("1) Attack");
+                    Console.WriteLine("2) Retire");
+                    Console.WriteLine("3) Save and exit");
+                    Console.Write("\r\nWhat do you want to do? ");
                     switch (Console.ReadLine())
                     {
                         case "1":
-                            //Motståndaren tar skada
-                            spelare.Attakera(motstandare, spelet);
+                            //The enemy takes damage
+                            player.Attack(enemy, theGame);
                             break;
                         case "2":
-                            //Spelaren ger upp
-                            spelare.Attakera(spelare, spelet);
-                            spelare.dead = true;
-                            avslutarSpelet = true;
+                            //The player gives up
+                            player.Attack(player, theGame);
+                            player.dead = true;
+                            endTheGame = true;
                             break;
                         case "3":
-                            //Spelaren avslutar och sparar
-                            Console.WriteLine(String.Format("Det verkar som att {0} vill ta en paus. Än så länge har {0} klarat sig i {1} rundor.", spelare.namn, spelet.rundorAvklarade));
-                            spelet.LoggaDetta(String.Format("Spelet avslutades vid runda {0} av spelaren.", spelet.rundorAvklarade));
-                            avslutarSpelet = true;
-                            SaveGame(spelet, spelare, motstandare);
+                            //The player saves and exits.
+                            Console.WriteLine(String.Format("It seems as if {0} wants to take a pause. So far, {0} has survived {1} rounds.", player.name, theGame.roundsDone));
+                            theGame.LogThis(String.Format("The Game was exited at round {0} by the player.", theGame.roundsDone));
+                            endTheGame = true;
+                            SaveGame(theGame, player, enemy);
                             break;
                         default:
-                            //Motståndaren tar skada
-                            spelare.Attakera(motstandare, spelet);
+                            //The enemy takes damage
+                            player.Attack(enemy, theGame);
                             break;
                     }
                 }
-                Console.WriteLine("Klicka enter för att fortsätta...");
+                Console.WriteLine("Click enter to continue...");
                 Console.ReadLine();
             }
-            if (!spelare.dead && motstandare.dead && !avslutarSpelet)
+            if (!player.dead && enemy.dead && !endTheGame)
             {
-                //Spelarens hälsa återställs 
-                spelare.befinnande = spelareMaxbefinnande;
+                //playerns hälsa återställs 
+                player.health = playerMaxhealth;
 
                 //loggar att runda är avklarad
-                spelet.LoggaDetta(String.Format("Runda {0} avklarad", spelet.rundorAvklarade));
-                spelet.rundorAvklarade += 1;
+                theGame.LogThis(String.Format("Round {0} done", theGame.roundsDone));
+                theGame.roundsDone += 1;
                 
                 //Ny motståndare läggs till
-                motstandare = CharacterCreation(spelet);
+                enemy = CharacterCreation(theGame);
 
-                //Spelarens styrka randomizeras
-                spelare.styrka = spelare.RullaTarningen();
+                //playerns strength randomizeras
+                player.strength = player.RollTheDice();
 
-                //Spara Spelet
-                SaveGame(spelet, spelare, motstandare);
+                //Save theGame
+                SaveGame(theGame, player, enemy);
 
                 //Starta shoppen
-                Console.WriteLine("Du ser en trevlig affär");
-                bool spelareShop = true;
+                Console.WriteLine("You see a nice little shop");
+                bool playerShop = true;
                 int shopId = 0;
-                while (spelareShop)
+                while (playerShop)
                 {
                     if (shopId == 0)
                     {
-                        Console.WriteLine("1) Gå in i affären");
-                        Console.WriteLine("2) Gå till nästa runda");
-                        Console.WriteLine("3) Avsluta och spara");
-                        Console.Write("\r\nVad vill du göra? ");
+                        Console.WriteLine("1) Enter the shop");
+                        Console.WriteLine("2) Go into battle");
+                        Console.WriteLine("3) Save and exit");
+                        Console.Write("\r\nWhat do you want to do? ");
                         switch (Console.ReadLine())
                         {
                             case "1":
                                 shopId = 1;
                                 break;
                             case "2":
-                                spelareShop = false;
+                                playerShop = false;
                                 break;
                             case "3":
-                                spelareShop = false;
-                                avslutarSpelet = true;
-                                SaveGame(spelet, spelare, motstandare);
+                                playerShop = false;
+                                endTheGame = true;
+                                SaveGame(theGame, player, enemy);
                                 break;
                             default:
-                                spelareShop = false;
+                                playerShop = false;
                                 break;
                         }
                     }
                     else if (shopId == 1)
                     {
-                        Console.WriteLine(String.Format("Du har {0} pengar", spelare.pengar));
-                        Console.WriteLine(String.Format("1) Uppgradera svärd (kostar {0})", spelet.kostnadSvard));
-                        if (spelare.brostplat == 0) {
-                            Console.WriteLine(String.Format("2) Köp bröstplåt (kostar {0})", spelet.kostnadBrostplat));
+                        Console.WriteLine(String.Format("You have {0} money", player.money));
+                        Console.WriteLine(String.Format("1) Uppgrade the sword (costs {0})", theGame.costsword));
+                        if (player.breastplate == 0) {
+                            Console.WriteLine(String.Format("2) Buy a breast plate (costs {0})", theGame.costbreastplate));
                         }
                         else { 
-                            Console.WriteLine(String.Format("2) Uppgradera bröstplåt (kostar {0})", spelet.kostnadBrostplat));
+                            Console.WriteLine(String.Format("2) Upgrade your breast plate (costs {0})", theGame.costbreastplate));
                         }
-                        if (spelare.benskydd == 0)
+                        if (player.greave == 0)
                         {
-                            Console.WriteLine(String.Format("3) Köp benskydd (kostar {0})", spelet.kostnadBenskydd));
+                            Console.WriteLine(String.Format("3) Buy greaves (costs {0})", theGame.costgreave));
                         }
                         else
                         {
-                            Console.WriteLine(String.Format("3) Uppgradera benskydd(kostar {0})", spelet.kostnadBenskydd));
+                            Console.WriteLine(String.Format("3) Upgrade your greaves (costs {0})", theGame.costgreave));
                         }
-                        Console.WriteLine("4) Gå ut ur affären");
-                        Console.Write("\r\nVad vill du göra? ");
+                        Console.WriteLine("4) Exit the shop");
+                        Console.Write("\r\nWhat do you want to do? ");
                         switch (Console.ReadLine())
                         {
                             case "1":
-                                if (spelare.pengar >= spelet.kostnadSvard) {
-                                    spelare.svard += 1;
-                                    spelare.pengar -= spelet.kostnadSvard;
-                                    spelet.kostnadSvard *= 2;
-                                    Console.WriteLine(String.Format("Du har uppgraderat dit svärd till level {0}!\nNästa gång du handlar ett svärd kommer det kosta {1}.", spelare.svard, spelet.kostnadSvard));
-                                    spelet.LoggaDetta(String.Format("Spelaren har nu svärd level {0} och {1} pengar", spelare.brostplat, spelare.pengar));
-                                    SaveGame(spelet, spelare, motstandare);
+                                if (player.money >= theGame.costsword) {
+                                    player.sword += 1;
+                                    player.money -= theGame.costsword;
+                                    theGame.costsword *= 2;
+                                    Console.WriteLine(String.Format("You've upgrade your sword to level {0}!\nNext time you want to upgrade your sword, it will cost {1}.", player.sword, theGame.costsword));
+                                    theGame.LogThis(String.Format("The player now has a level {0} sword and {1} money", player.breastplate, player.money));
+                                    SaveGame(theGame, player, enemy);
                                 }
                                 else
                                 {
-                                    Console.WriteLine(String.Format("Tyvärr, det kostar {0} att uppgradera dit svärd, du har enbart {1}. Du behöver {2} fler pengar för att kunna köpa detta svärd.", spelet.kostnadSvard, spelare.pengar, spelet.kostnadSvard-spelare.pengar));
+                                    Console.WriteLine(String.Format("Sorry, it costs {0} to upgrade your sword. You only have {1} and you need {2} more to be able to upgrade this sword.", theGame.costsword, player.money, theGame.costsword-player.money));
                                 }
                                 break;
                             case "2":
-                                if (spelare.pengar >= spelet.kostnadBrostplat)
+                                if (player.money >= theGame.costbreastplate)
                                 {
-                                    spelare.brostplat += 1;
-                                    spelare.pengar -= spelet.kostnadBrostplat;
-                                    spelet.kostnadBrostplat *= 2;
-                                    if (spelare.brostplat != 1) { 
-                                        Console.WriteLine(String.Format("Du har uppgraderat dit bröstplåt till level {0}!\nNästa gång du handlar en bröstplåt kommer det kosta {1}.", spelare.brostplat, spelet.kostnadBrostplat));
+                                    player.breastplate += 1;
+                                    player.money -= theGame.costbreastplate;
+                                    theGame.costbreastplate *= 2;
+                                    if (player.breastplate != 1) { 
+                                        Console.WriteLine(String.Format("You have upgrade your breast plate to level {0}!\nNext time you want to upgrade your breast plate, it will cost {1}.", player.breastplate, theGame.costbreastplate));
                                     }
                                     else
                                     {
-                                        Console.WriteLine(String.Format("Du har köpt en bröstplåt!\nNästa gång du handlar en bröstplåt kommer det kosta {0}.", spelet.kostnadBrostplat));
+                                        Console.WriteLine(String.Format("You've bought a breast plate!\nNext time you want to upgrade your breast plate, ít will cost {0}.", theGame.costbreastplate));
                                     }
-                                    spelet.LoggaDetta(String.Format("Spelaren har nu bröstplåt level {0} och {1} pengar", spelare.brostplat, spelare.pengar));
-                                    SaveGame(spelet, spelare, motstandare);
+                                    theGame.LogThis(String.Format("The player now has a level {0} breast plate and {1} money", player.breastplate, player.money));
+                                    SaveGame(theGame, player, enemy);
                                 }
                                 else
                                 {
-                                    if (spelare.brostplat != 0) { 
-                                        Console.WriteLine(String.Format("Tyvärr, det kostar {0} att uppgradera din bröstplåt, du har enbart {1}. Du behöver {2} fler pengar för att kunna köpa denna bröstplåt.", spelet.kostnadBrostplat, spelare.pengar, spelet.kostnadBrostplat - spelare.pengar));
+                                    if (player.breastplate != 0) { 
+                                        Console.WriteLine(String.Format("Sorry, it costs{0} to upgrade your breast plate. You have {1} and you need {2} more to be able to upgrade your breast plate.", theGame.costbreastplate, player.money, theGame.costbreastplate - player.money));
                                     }
                                     else
                                     {
-                                        Console.WriteLine(String.Format("Tyvärr, det kostar {0} att köpa en bröstplåt, du har enbart {1}. Du behöver {2} fler pengar för att kunna köpa denna bröstplåt.", spelet.kostnadBrostplat, spelare.pengar, spelet.kostnadBrostplat - spelare.pengar));
+                                        Console.WriteLine(String.Format("Sorry, it costs{0} to buy a breast plate. You have {1} and you need {2} more to be able to buy this breast plate.", theGame.costbreastplate, player.money, theGame.costbreastplate - player.money));
                                     }
                                 }
                                 break;
                             case "3":
-                                if (spelare.pengar >= spelet.kostnadBenskydd)
+                                if (player.money >= theGame.costgreave)
                                 {
-                                    spelare.benskydd += 1;
-                                    spelare.pengar -= spelet.kostnadBenskydd;
-                                    spelet.kostnadBenskydd *= 2;
-                                    if (spelare.benskydd != 1)
+                                    player.greave += 1;
+                                    player.money -= theGame.costgreave;
+                                    theGame.costgreave *= 2;
+                                    if (player.greave != 1)
                                     {
-                                        Console.WriteLine(String.Format("Du har uppgraderat dit benskydd till level {0}!\nNästa gång du handlar ett benskydd kommer det kosta {1}.", spelare.benskydd, spelet.kostnadBenskydd));
+                                        Console.WriteLine(String.Format("You have upgrade your greaves to level {0}!\nNext time you want to upgrade your greaves, it will cost {1}.", player.greave, theGame.costgreave));
                                     }
                                     else
                                     {
-                                        Console.WriteLine(String.Format("Du har köpt ett benskydd!\nNästa gång du handlar ett benskydd kommer det kosta {0}.", spelet.kostnadBenskydd));
+                                        Console.WriteLine(String.Format("You have bought greaves!\nNext time you want to upgrade your greaves, it will cost {1}.", theGame.costgreave));
                                     }
-                                    spelet.LoggaDetta(String.Format("Spelaren har nu benskydd level {0} och {1} pengar", spelare.benskydd, spelare.pengar));
-                                    SaveGame(spelet, spelare, motstandare);
+                                    theGame.LogThis(String.Format("The player now has level {0} greaves och {1} money", player.greave, player.money));
+                                    SaveGame(theGame, player, enemy);
                                 }
                                 else
                                 {
-                                    if (spelare.benskydd != 0)
+                                    if (player.greave != 0)
                                     {
-                                        Console.WriteLine(String.Format("Tyvärr, det kostar {0} att uppgradera dina benskydd, du har enbart {1}. Du behöver {2} fler pengar för att kunna köpa dessa benskydd.", spelet.kostnadBenskydd, spelare.pengar, spelet.kostnadBenskydd - spelare.pengar));
+                                        Console.WriteLine(String.Format("Sorry, it costs{0} to upgrade your greaves. You have {1} and you need {2} more to be able to upgrade your greaves.", player.greave, theGame.costgreave));
                                     }
                                     else
                                     {
-                                        Console.WriteLine(String.Format("Tyvärr, det kostar {0} att köpa benskydd, du har enbart {1}. Du behöver {2} fler pengar för att kunna köpa dessa benskydd.", spelet.kostnadBenskydd, spelare.pengar, spelet.kostnadBenskydd - spelare.pengar));
+                                        Console.WriteLine(String.Format("Sorry, it costs{0} to buy the greaves. You have {1} and you need {2} more to be able to buy these greaves.", theGame.costgreave));
                                     }
                                 }
                                 break;
@@ -487,101 +487,101 @@ namespace Arena
                 }
 
                 //Ny runda
-                Runda(spelare, motstandare, spelet);
+                Runda(player, enemy, theGame);
             }
-            if (spelare.dead && !motstandare.dead)
+            if (player.dead && !enemy.dead)
             {
-                Console.WriteLine(String.Format("Det här verkar som slutet på resan för {0}, som stolt klarade sig i {1} rundor.", spelare.namn, spelet.rundorAvklarade - 1));
-                spelet.LoggaDetta(String.Format("Spelaren dog vid runda {0}, spelet avslutas", spelet.rundorAvklarade - 1));
-                File.Delete("spelare.xml");
-                File.Delete("motstandare.xml");
-                File.Delete("spelet.xml");
+                Console.WriteLine(String.Format("This seems the end for {0}, who bravely fought {1} rounds.", player.name, theGame.roundsDone - 1));
+                theGame.LogThis(String.Format("The player died at round {0}. The Game is now quitting", theGame.roundsDone - 1));
+                File.Delete("player.xml");
+                File.Delete("enemy.xml");
+                File.Delete("theGame.xml");
             }
         }
 
-        static void SaveGame(Game spelet, Character spelare, Character motstandare)
+        static void SaveGame(Game theGame, Character player, Character enemy)
         {
-            spelet.LoggaDetta("Spelet sparades");
-            SaveViaDataContractSerialization(spelet, "spelet.xml");   //Spara Spelet
-            SaveViaDataContractSerialization(spelare, "spelare.xml");   //Spara Spelaren
-            SaveViaDataContractSerialization(motstandare, "motstandare.xml");   //Spara Spelaren
-            Console.WriteLine("Spelet har sparats!");
+            theGame.LogThis("The Game is now Saved");
+            SaveViaDataContractSerialization(theGame, "theGame.xml");   //Save theGame
+            SaveViaDataContractSerialization(player, "player.xml");   //Save playern
+            SaveViaDataContractSerialization(enemy, "enemy.xml");   //Save playern
+            Console.WriteLine("The Game is now Saved!");
         }
         static Game LoadGame()
         {
-            Console.WriteLine("Laddar in spelet");
-            return LoadViaDataContractSerialization<Game>("spelet.xml"); //Ladda in Spelet.
+            Console.WriteLine("Loading the Game");
+            return LoadViaDataContractSerialization<Game>("theGame.xml"); //Ladda in theGame.
         }
 
         static void Main()
         {
             //Variabler
-            Character spelare;
-            Game spelet;
-            Character motstandare;
+            Character player;
+            Game theGame;
+            Character enemy;
 
-            //Finns ens spelet?
-            if (!File.Exists("spelet.xml"))
+            //Finns ens theGame?
+            if (!File.Exists("theGame.xml"))
             {
-                // Skapa spelet
-                spelet = new Game(30, 71, 1, 11, 1, "Startet av spelet", 10, 101, 100, 125, 150);
+                // Skapa theGame
+                theGame = new Game(30, 71, 1, 11, 1, "The Beginning of the Game", 10, 101, 100, 125, 150);
 
                 // Viktiga variabler
                 Random rand = new Random();
-                int sbefinnande = rand.Next(30, 101); //Hälsa, mellan 30 och 100.
+                int shealth = rand.Next(30, 101); //Hälsa, mellan 30 och 100.
 
-                //Fråga spelaren
-                Console.WriteLine("Vad heter din spelare?");
+                //Fråga playern
+                Console.WriteLine("What is the name of your player?");
 
-                //Skapa spelaren
-                spelare = new Character(Console.ReadLine(), sbefinnande, 0, false, 1, rand.Next(1, 51), 0, 0, 100, 0); //Skapa Spelaren
+                //Skapa playern
+                player = new Character(Console.ReadLine(), shealth, 0, false, 1, rand.Next(1, 51), 0, 0, 100, 0); //Skapa playern
 
                 //Rulla tärningen
-                Console.WriteLine("Du kastar en tärning");
-                spelare.styrka = spelare.RullaTarningen();
+                Console.WriteLine("You throw a dice");
+                player.strength = player.RollTheDice();
 
-                //Spara spelaren och ladda in
-                SaveViaDataContractSerialization(spelare, "spelare.xml");   //Spara Spelaren
-                spelare = null; //Spelaren "tas bort"
-                spelare = LoadViaDataContractSerialization<Character>("spelare.xml"); //Ladda in spelare.
+                //Save playern och ladda in
+                SaveViaDataContractSerialization(player, "player.xml");   //Save playern
+                player = null; //playern "tas bort"
+                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
                 
                 //Skapa Motståndaren
-                motstandare = CharacterCreation(spelet);
+                enemy = CharacterCreation(theGame);
 
-                //Spara spelet och dess karaktärer
-                SaveGame(spelet, spelare, motstandare);
+                //Save theGame och dess karaktärer
+                SaveGame(theGame, player, enemy);
             }
             else
             {
-                //Spelet finns, ladda in spelet
-                spelet = LoadGame();
-                spelet.LoggaDetta("Laddade in spelet");
+                //theGame finns, ladda in theGame
+                theGame = LoadGame();
+                theGame.LogThis("Loading the Game");
 
-                //Ladda in spelare
-                spelare = LoadViaDataContractSerialization<Character>("spelare.xml"); //Ladda in spelare.
-                if (spelare.dead == null)
+                //Ladda in player
+                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
+                if (player.dead == null)
                 {
-                    spelare.dead = false;
+                    player.dead = false;
                 }
-                Console.WriteLine(spelare.ToString()); //Visa spelaren
-                SaveViaDataContractSerialization(spelare, "spelare.xml");   //Spara Spelaren
-                spelare = null; //Spelaren "tas bort"
-                spelare = LoadViaDataContractSerialization<Character>("spelare.xml"); //Ladda in spelare.
+                Console.WriteLine(player.ToString()); //Visa playern
+                SaveViaDataContractSerialization(player, "player.xml");   //Save playern
+                player = null; //playern "tas bort"
+                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
 
                 //Ladda in motståndaren
-                motstandare = LoadViaDataContractSerialization<Character>("motstandare.xml"); //Ladda in spelare.
-                if (motstandare.dead == null)
+                enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Ladda in player.
+                if (enemy.dead == null)
                 {
-                    motstandare.dead = false;
+                    enemy.dead = false;
                 }
-                SaveViaDataContractSerialization(motstandare, "motstandare.xml");   //Spara Spelaren
-                motstandare = null; //Spelaren "tas bort"
-                motstandare = LoadViaDataContractSerialization<Character>("motstandare.xml"); //Ladda in spelare.
+                SaveViaDataContractSerialization(enemy, "enemy.xml");   //Save playern
+                enemy = null; //playern "tas bort"
+                enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Ladda in player.
             }
             //Starta rundan
-            motstandare.dead = true;
-            spelare.pengar = 118;
-            Runda(spelare, motstandare, spelet);
+            enemy.dead = true;
+            player.money = 118;
+            Runda(player, enemy, theGame);
         }
     }
 }
