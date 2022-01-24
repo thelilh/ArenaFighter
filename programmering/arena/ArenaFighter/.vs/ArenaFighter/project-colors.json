@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1aecdfc0-9217-463d-ba04-0bfb02fa01fb": {
+      "ProjectGuid": "1aecdfc0-9217-463d-ba04-0bfb02fa01fb",
+      "DisplayName": "ArenaFighter",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
