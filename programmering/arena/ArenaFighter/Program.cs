@@ -200,43 +200,43 @@ namespace Arena
 
         static Character CharacterCreation(Game theGame)
         {
-            //TODO: lägg till flera name, player kanske är för bra!
+            //TODO: Add more names, the player might be too good!
             string[] name = new string[] { "Sofia Björn", "Clidna Annemarie", "Timo Thorne", "Merrill Latasha", "Jarka Iona", "Liis Rafaela", "Floella Halinka", "Elva Lamya", "Britta Conchobhar", "Alana Ellie", "Magni Tonya" };
             Random rand = new Random();
 
-            //Hälsa, mellan 1 och 100.
+            //Health
             int shealth = rand.Next(theGame.minhealth, theGame.maxhealth);
 
-            //Ge motståndaren ett name
+            //Give the enemy a name
             int rname = rand.Next(1, name.Length);
 
-            //Skapa Motståndaren
+            //Create the enemy
             Character enemy = new Character(name[rname], shealth, 0, false, 1, rand.Next(1, 51), 0, 0, rand.Next(theGame.minmoney, theGame.maxmoney), 1); 
 
-            //Modifiera strengthn
+            //Modify the strength
             enemy.strength = enemy.RollTheDice();
 
-            //Save motståndaren
+            //Save the enemy
             SaveViaDataContractSerialization(enemy, "enemy.xml");   //Save Motståndaren
 
-            //Ge tillbaka motståndaren till theGame
+            //Give back the enemy to the game
             return enemy;
         }
 
-        static void Runda(Character player, Character enemy, Game theGame)
+        static void Round(Character player, Character enemy, Game theGame)
         {
-            //Rensa skärmen
+            //Clear the screen
             Console.Clear();
 
-            //Logga rundan
+            //Log the Round
             theGame.LogThis(String.Format("Round {0}", theGame.roundsDone));
 
-            //Temporära varaiblar
+            //Temporary variables
             int playerMaxhealth = player.health;
             int mMaxhealth = enemy.health;
             bool endTheGame = false;
 
-            //Skriv ut vem playern möter
+            //Write who the player is fighting
             Console.WriteLine(String.Format("{0} versus {1}. You have a health of {2} and a strength of {3}, the enemy has a health of {4}.", player.name, enemy.name, player.health, player.strength, enemy.health));
             if (player.speed > enemy.speed)
             {
@@ -338,23 +338,23 @@ namespace Arena
             }
             if (!player.dead && enemy.dead && !endTheGame)
             {
-                //playerns hälsa återställs 
+                //The player's health is restored
                 player.health = playerMaxhealth;
 
-                //loggar att runda är avklarad
+                //Log that the round has finished
                 theGame.LogThis(String.Format("Round {0} done", theGame.roundsDone));
                 theGame.roundsDone += 1;
                 
-                //Ny motståndare läggs till
+                //New enemey
                 enemy = CharacterCreation(theGame);
 
-                //playerns strength randomizeras
+                //Randomize the strength of the player
                 player.strength = player.RollTheDice();
 
-                //Save theGame
+                //Save the Game
                 SaveGame(theGame, player, enemy);
 
-                //Starta shoppen
+                //Start the shop
                 Console.WriteLine("You see a nice little shop");
                 bool playerShop = true;
                 int shopId = 0;
@@ -486,8 +486,8 @@ namespace Arena
                     }
                 }
 
-                //Ny runda
-                Runda(player, enemy, theGame);
+                //New Round
+                Round(player, enemy, theGame);
             }
             if (player.dead && !enemy.dead)
             {
@@ -578,10 +578,10 @@ namespace Arena
                 enemy = null; //playern "tas bort"
                 enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Ladda in player.
             }
-            //Starta rundan
+            //Starta Roundn
             enemy.dead = true;
             player.money = 118;
-            Runda(player, enemy, theGame);
+            Round(player, enemy, theGame);
         }
     }
 }
