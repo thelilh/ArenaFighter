@@ -56,11 +56,6 @@ namespace Arena
             this.money = money;
             this.type = type;
         }
-        public override string ToString()
-        {
-            string returnString = name + " has a health of " + health + " and a strength of " + strength;
-            return returnString;
-        }
         public int TakeDamage(int dmg)
         {
             int temp = this.health - dmg;
@@ -515,72 +510,69 @@ namespace Arena
 
         static void Main()
         {
-            //Variabler
+            //Variables
             Character player;
             Game theGame;
             Character enemy;
 
-            //Finns ens theGame?
+            //Does the game even exist?
             if (!File.Exists("theGame.xml"))
             {
-                // Skapa theGame
+                // Create the Game
                 theGame = new Game(30, 71, 1, 11, 1, "The Beginning of the Game", 10, 101, 100, 125, 150);
 
-                // Viktiga variabler
+                // Important variables
                 Random rand = new Random();
-                int shealth = rand.Next(30, 101); //Hälsa, mellan 30 och 100.
+                int shealth = rand.Next(30, 101); //Health, between 30 och 100.
 
-                //Fråga playern
+                //Ask for the player's name
                 Console.WriteLine("What is the name of your player?");
 
-                //Skapa playern
-                player = new Character(Console.ReadLine(), shealth, 0, false, 1, rand.Next(1, 51), 0, 0, 100, 0); //Skapa playern
+                //Create the player
+                player = new Character(Console.ReadLine(), shealth, 0, false, 1, rand.Next(1, 51), 0, 0, 100, 0); //Create the player
 
-                //Rulla tärningen
+                //Roll the dice
                 Console.WriteLine("You throw a dice");
                 player.strength = player.RollTheDice();
 
-                //Save playern och ladda in
-                SaveViaDataContractSerialization(player, "player.xml");   //Save playern
-                player = null; //playern "tas bort"
-                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
+                //Save the player and load it
+                SaveViaDataContractSerialization(player, "player.xml");   //Save the player
+                player = null; //the player is "removed"
+                player = LoadViaDataContractSerialization<Character>("player.xml"); //Load the player
                 
-                //Skapa Motståndaren
+                //Create the enemy
                 enemy = CharacterCreation(theGame);
 
-                //Save theGame och dess karaktärer
+                //Save the game and its characters
                 SaveGame(theGame, player, enemy);
             }
             else
             {
-                //theGame finns, ladda in theGame
+                //The game does exist, load it!
                 theGame = LoadGame();
                 theGame.LogThis("Loading the Game");
 
-                //Ladda in player
-                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
+                //Load the player
+                player = LoadViaDataContractSerialization<Character>("player.xml");
                 if (player.dead == null)
                 {
                     player.dead = false;
                 }
-                Console.WriteLine(player.ToString()); //Visa playern
-                SaveViaDataContractSerialization(player, "player.xml");   //Save playern
-                player = null; //playern "tas bort"
-                player = LoadViaDataContractSerialization<Character>("player.xml"); //Ladda in player.
+                SaveViaDataContractSerialization(player, "player.xml");   //Save the player
+                player = null; //the player is "removed"
+                player = LoadViaDataContractSerialization<Character>("player.xml"); //Load the player
 
-                //Ladda in motståndaren
-                enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Ladda in player.
+                //Load the enemy
+                enemy = LoadViaDataContractSerialization<Character>("enemy.xml");
                 if (enemy.dead == null)
                 {
                     enemy.dead = false;
                 }
-                SaveViaDataContractSerialization(enemy, "enemy.xml");   //Save playern
-                enemy = null; //playern "tas bort"
-                enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Ladda in player.
+                SaveViaDataContractSerialization(enemy, "enemy.xml"); //Save the enemy
+                enemy = null; //the enemy is "removed"
+                enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Load the enemy
             }
-            //Starta Roundn
-            enemy.dead = true;
-            player.money = 118;
+            //Start the round
             Round(player, enemy, theGame);
         }
     }
