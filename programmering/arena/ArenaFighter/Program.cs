@@ -554,20 +554,12 @@ namespace Arena
 
                 //Load the player
                 player = LoadViaDataContractSerialization<Character>("player.xml");
-                if (player.dead == null)
-                {
-                    player.dead = false;
-                }
                 SaveViaDataContractSerialization(player, "player.xml");   //Save the player
                 player = null; //the player is "removed"
                 player = LoadViaDataContractSerialization<Character>("player.xml"); //Load the player
 
                 //Load the enemy
                 enemy = LoadViaDataContractSerialization<Character>("enemy.xml");
-                if (enemy.dead == null)
-                {
-                    enemy.dead = false;
-                }
                 SaveViaDataContractSerialization(enemy, "enemy.xml"); //Save the enemy
                 enemy = null; //the enemy is "removed"
                 enemy = LoadViaDataContractSerialization<Character>("enemy.xml"); //Load the enemy
