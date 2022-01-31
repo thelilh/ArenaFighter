@@ -1,2 +1,4 @@
 # ArenaFighter
-Detta var gjort i samband med Lexicons utbildning av .NET programmering, all kodning är gjord i Visual Studios 2022 och är gjord av Hannah Karlsson.
+ArenaFighter samt LexiconProgramming är gjord i samband med Lexicons utbildning inom .NET Programming och är testat i Visual Studios 2022.
+
+Denna repository kan användas i andra syften.
