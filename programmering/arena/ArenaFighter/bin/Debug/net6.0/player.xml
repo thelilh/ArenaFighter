@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Character xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Arena">
+	<breastplate>0</breastplate>
+	<dead>false</dead>
+	<greave>0</greave>
+	<health>47</health>
+	<money>73</money>
+	<name>Kurt-Bertil den Tredje</name>
+	<speed>16</speed>
+	<strength>8</strength>
+	<sword>2</sword>
+	<type>Player</type>
+</Character>

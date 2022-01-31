@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Character xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Arena">
+	<breastplate>0</breastplate>
+	<dead>false</dead>
+	<greave>0</greave>
+	<health>50</health>
+	<money>59</money>
+	<name>Damascius the Fierce</name>
+	<speed>40</speed>
+	<strength>3</strength>
+	<sword>1</sword>
+	<type>Enemy</type>
+</Character>

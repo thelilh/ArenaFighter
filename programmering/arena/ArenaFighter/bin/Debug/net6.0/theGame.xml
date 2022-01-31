@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Game xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Arena">
+	<arenaVariety>
+		<healthBalance>-10</healthBalance>
+		<speedBalance>-10</speedBalance>
+		<strengthBalance>-1</strengthBalance>
+	</arenaVariety>
+	<end>true</end>
+	<log xmlns:d2p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+		<d2p1:string>The Beginning of the Game</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's strength is now 4</d2p1:string>
+		<d2p1:string>Damascius the Elven King's strength is now 2</d2p1:string>
+		<d2p1:string>Attempting to Save Files</d2p1:string>
+		<d2p1:string>Game saved successfully</d2p1:string>
+		<d2p1:string>Player saved successfully</d2p1:string>
+		<d2p1:string>Enemy saved successfully</d2p1:string>
+		<d2p1:string>All files saved</d2p1:string>
+		<d2p1:string>Round 1</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's strength is now 6</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 50</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 48</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 33</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 46</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 27</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 44</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 21</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 42</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 15</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 40</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 9</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 38</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now 3</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 36</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Elven King (2 damage).</d2p1:string>
+		<d2p1:string>Damascius the Elven King's health is now -3</d2p1:string>
+		<d2p1:string>Damascius the Elven King was stabbed Kurt-Bertil den Tredje (6 damage).</d2p1:string>
+		<d2p1:string>The player killed Damascius the Elven King, which had 73 money on them. The player's money is now 173.</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 50</d2p1:string>
+		<d2p1:string>Round 1 done</d2p1:string>
+		<d2p1:string>Damascius the Fierce's strength is now 3</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's strength is now 4</d2p1:string>
+		<d2p1:string>Attempting to Save Files</d2p1:string>
+		<d2p1:string>Game saved successfully</d2p1:string>
+		<d2p1:string>Player saved successfully</d2p1:string>
+		<d2p1:string>Enemy saved successfully</d2p1:string>
+		<d2p1:string>All files saved</d2p1:string>
+		<d2p1:string>The player now has a level 2 sword and 73 money</d2p1:string>
+		<d2p1:string>Attempting to Save Files</d2p1:string>
+		<d2p1:string>Game saved successfully</d2p1:string>
+		<d2p1:string>Player saved successfully</d2p1:string>
+		<d2p1:string>Enemy saved successfully</d2p1:string>
+		<d2p1:string>All files saved</d2p1:string>
+		<d2p1:string>Round 2</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's strength is now 8</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 50</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje's health is now 47</d2p1:string>
+		<d2p1:string>Kurt-Bertil den Tredje was stabbed Damascius the Fierce (3 damage).</d2p1:string>
+		<d2p1:string>The Game was exited at round 2 by the player.</d2p1:string>
+		<d2p1:string>Attempting to Save Files</d2p1:string>
+	</log>
+	<maxhealth>81</maxhealth>
+	<maxmoney>121</maxmoney>
+	<maxstrength>11</maxstrength>
+	<minhealth>40</minhealth>
+	<minmoney>30</minmoney>
+	<minstrength>1</minstrength>
+	<roundsDone>2</roundsDone>
+	<storePrices>
+		<costbreastplate>125</costbreastplate>
+		<costgreave>150</costgreave>
+		<costsword>200</costsword>
+	</storePrices>
+</Game>
